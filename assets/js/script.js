@@ -24,6 +24,8 @@ $(function () {
     var blockID = $(this).parent().attr("id");
 
     localStorage.setItem(blockID, text);
+
+    showMessage("Appointment added to <span style='color: red;'>Local Storage</span>");
   });
 
   function displaySavedEvents() {
@@ -31,8 +33,21 @@ $(function () {
       var blockID = $(this).attr("id");
       var savedEvent = localStorage.getItem(blockID);
 
-      $(this).find(".description").val(savedEvent);
+      if (savedEvent) {
+        $(this).find(".description").val(savedEvent);
+        showMessage("Appointment loaded from <span style='color: red;'>Local Storage</span>");
+      }
     });
+  }
+
+  function showMessage(message) {
+    var messageElement = $("<div>").addClass("text-center fs-5").html(message);
+
+    $(".container-lg").before(messageElement);
+
+    setTimeout(function () {
+      messageElement.remove();
+    }, 5000);
   }
 
   displaySavedEvents();
